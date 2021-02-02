@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Freoguesser</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMEIMOMiplkCFiyXazvI5gV-sRXRLfrVo&callback=initialize&libraries=&v=weekly"
+      defer
+    ></script>
+<!--     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&v=3&libraries=geometry"></script> -->
+
+    <script>
+      function initialize() {
+        const fenway = { lat: 42.345573, lng: -71.098326 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: new google.maps.LatLng(0, 0),
+          zoom: 1,
+          minZoom: 1
+        });
+        const panorama = new google.maps.StreetViewPanorama(
+          document.getElementById("pano"),
+          {
+            position: fenway,
+            pov: {
+              heading: 34,
+              pitch: 10,
+            },
+          }
+        );
+        map.setStreetView(panorama);
+        map.addListener('click', function(e) {
+            placeMarker(e.latLng, map);
+        });
+        var marker = null;
+        function placeMarker(location) {
+            if (marker)
+                marker.setMap(null);
+            marker = new google.maps.Marker({
+                position: location, 
+                map: map
+            });
+            document.getElementById("confirmButton").disabled = false;
+            document.getElementById("confirmButton").style.display = "block";
+
+        }
+
+        function showDistance() {
+          alert(google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000)
+          document.getElementById("confirmButton").disabled = true;
+          document.getElementById("confirmButton").style.display = "none";
+        }
+        document.getElementById('confirmButton').addEventListener('click', showDistance, true);
+
+      }
+
+
+    </script>
+  </head>
+  <body>
+
+      
+      <div id="pano"></div>
+      <div id="map"></div>
+      <button id="confirmButton" disabled="true" style="display: none">Confirm</button>
+
+  </body>
+</html>

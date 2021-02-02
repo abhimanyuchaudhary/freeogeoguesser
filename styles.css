@@ -1,0 +1,36 @@
+
+/*#map {
+  position:absolute;
+  top:70%;
+  right:70%;
+  bottom:0px;
+  left:0px;
+}*/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#pano {
+	position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index:1;
+}
+#map {
+  position: absolute;
+  top: 70%;
+  left: 70%;
+  right: 0px;
+  bottom: 0px;
+  z-index:2;
+}
+
+#confirmButton {
+  position:absolute;
+  top:10px;
+  right:50%;
+  z-index:2;
+}

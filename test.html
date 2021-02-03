@@ -28,7 +28,7 @@
             },
           }
         );
-        map.setStreetView(panorama);
+        // map.setStreetView(panorama);
         map.addListener('click', function(e) {
             placeMarker(e.latLng, map);
         });
@@ -41,14 +41,13 @@
                 map: map
             });
             document.getElementById("confirmButton").disabled = false;
-            document.getElementById("confirmButton").style.display = "block";
+            document.getElementById("confirmButton").style.backgroundColor="#4CAF50"
 
         }
 
         function showDistance() {
           alert(google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000)
           document.getElementById("confirmButton").disabled = true;
-          document.getElementById("confirmButton").style.display = "none";
         }
         document.getElementById('confirmButton').addEventListener('click', showDistance, true);
 
@@ -62,7 +61,7 @@
       
       <div id="pano"></div>
       <div id="map"></div>
-      <button id="confirmButton" disabled="true" style="display: none">Confirm</button>
+      <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
 
   </body>
 </html>

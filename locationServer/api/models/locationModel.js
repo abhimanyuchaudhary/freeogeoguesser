@@ -23,3 +23,6 @@ const LocationSchema = new Schema({
 });
 
 module.exports = mongoose.model('LatLng', LocationSchema);
+
+// C:\Program Files\MongoDB\Server\4.4\bin>mongod.exe -dbpath "C:\data"
+// C:\Program Files\MongoDB\Server\4.4\bin>mongo.exe

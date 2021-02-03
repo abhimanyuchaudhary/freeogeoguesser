@@ -12,18 +12,21 @@
 
     <script>
       function initialize() {
-        const fenway = { lat: 42.345573, lng: -71.098326 };
-        const twoloc = { lat: 52.163564, lng: 21.084532 };
+        const locations = [{lat: 42.345573, lng: -71.098326},
+                            {lat: 52.163564, lng: 21.084532},
+                            {lat: 46.757110, lng: 7.624709}]
+        const locationNumber = locations.length
         const map = new google.maps.Map(document.getElementById("map"), {
           center: new google.maps.LatLng(0, 0),
           zoom: 1,
           minZoom: 1,
           disableDefaultUI: true,
         });
+        var indexLocation = 0;
         const panorama = new google.maps.StreetViewPanorama(
           document.getElementById("pano"),
           {
-            position: fenway,
+            position: locations[indexLocation],
             pov: {
               heading: 34,
               pitch: 10,
@@ -61,7 +64,9 @@
         function showDistance() {
           alert(google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000)
           document.getElementById("confirmButton").disabled = true;
-          panorama.setPosition(twoloc)
+          indexLocation = (indexLocation + 1) % locationNumber
+          panorama.setPosition(locations[indexLocation])
+
         }
 
         document.getElementById('confirmButton').addEventListener('click', showDistance, true);

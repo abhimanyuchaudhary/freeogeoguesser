@@ -12,6 +12,12 @@
 
     <script>
       function initialize() {
+        const userAction = async () => {
+          const response = await fetch('http://localhost:3000/getRandom');
+          const myJson = await response.json(); 
+          console.log(myJson)
+        }
+        userAction()
         const locations = [{lat: 42.345573, lng: -71.098326},
                             {lat: 52.163564, lng: 21.084532},
                             {lat: 46.757110, lng: 7.624709}]

@@ -19,7 +19,8 @@ var Schema = mongoose.Schema;
 // });
 const LocationSchema = new Schema({
    lat: Number,
-   lon: Number
+   lon: Number,
+   country: String
 });
 
 module.exports = mongoose.model('LatLng', LocationSchema);

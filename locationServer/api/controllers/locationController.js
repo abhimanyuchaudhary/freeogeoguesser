@@ -36,7 +36,7 @@ exports.push_a_location = function(req, res) {
 
     }
     );
-  console.log(req)
+  // console.log(req)
   new_location.save(function(err, e) {
     if (err)
       res.send(err);

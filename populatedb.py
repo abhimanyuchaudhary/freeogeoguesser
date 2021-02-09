@@ -12,13 +12,6 @@ def doesStreetViewExist(randomX, randomY, key):
 	response = requests.get(streetApiCall)
 	print(response.json()["status"])
 	return (response.json()["status"] == "OK")
-	# Read image 
-	# img = Image.open(response.text, "JPEG") 
-	  
-	# # Output Images 
-	# img.show() 
-	  
-	# print(response.headers)
 
 x1 = int(sys.argv[1]);
 x2 = int(sys.argv[2]);

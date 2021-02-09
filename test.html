@@ -8,12 +8,37 @@
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMEIMOMiplkCFiyXazvI5gV-sRXRLfrVo&callback=initialize&libraries=&v=weekly"
       defer
     ></script>
-<!--     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&v=3&libraries=geometry"></script> -->
 
-    <script>
+    <script>//40.52519353111996, -3.8014052071717654
+      function getRandomPoint() { 
+        return {'lat' : 40.12519353111996, 'lng' : -3.8014052071717654}
+      }
+      function getLatLng(radius, func) {
+        latlng = getRandomPoint()
+        const sv = new google.maps.StreetViewService();
+        sv.getPanorama(
+          {
+            location: latlng,
+            radius: radius
+          },
+
+          function (data, status) {
+            if (status === google.maps.StreetViewStatus.OK) {
+              console.log(data.location)
+              console.log(data)
+              func(data.location.latLng)
+              // return data.location.latlng
+              // successCallback(data.location.latLng);
+            } else {
+              getLatLng(radius)
+              // this.setPositionRandomly(successCallback);
+            }
+          }.bind(this)
+        );
+      }
+
       async function initialize() {
         const locationNumber = 3
-        var locations = await populateLocations(locationNumber);   
         const map = new google.maps.Map(document.getElementById("map"), {
           center: new google.maps.LatLng(0, 0),
           zoom: 1,
@@ -21,11 +46,10 @@
           disableDefaultUI: true,
         });
         var indexLocation = 0;
-        console.log(locations)
         const panorama = new google.maps.StreetViewPanorama(
           document.getElementById("pano"),
           {
-            position: locations[indexLocation],
+            position: {'lat' : 0, 'lng' : 0},
             pov: {
               heading: 34,
               pitch: 10,
@@ -43,21 +67,15 @@
 
           }
         );
+        function setPosition(latlng) {
+          panorama.setPosition(latlng)
+        }
+        getLatLng(10, setPosition)
         // map.setStreetView(panorama);
         map.addListener('click', function(e) {
             placeMarker(e.latLng, map);
         });
         var marker = null;
-
-        async function populateLocations(number){
-          var tempLocation = [] 
-          for (i = 0; i < number; i++) {
-            const response = await fetch('http://localhost:3000/getRandom');
-            const myJson = await response.json(); 
-            tempLocation.push({lat: myJson.lat, lng: myJson.lon})
-          }
-          return tempLocation
-        }
         function placeMarker(location) {
             if (marker)
                 marker.setMap(null);
@@ -72,7 +90,7 @@
           alert(google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000)
           document.getElementById("confirmButton").disabled = true;
           indexLocation = (indexLocation + 1) % locationNumber
-          panorama.setPosition(locations[indexLocation])
+          getLatLng(1000, setPosition)
 
         }
 

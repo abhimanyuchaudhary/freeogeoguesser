@@ -39,6 +39,7 @@
 
       async function initialize() {
         const locationNumber = 3
+        var totalScore = 0
         const map = new google.maps.Map(document.getElementById("map"), {
           center: new google.maps.LatLng(0, 0),
           zoom: 1,
@@ -70,7 +71,7 @@
         function setPosition(latlng) {
           panorama.setPosition(latlng)
         }
-        getLatLng(10, setPosition)
+        getLatLng(1000, setPosition)
         // map.setStreetView(panorama);
         map.addListener('click', function(e) {
             placeMarker(e.latLng, map);
@@ -87,10 +88,17 @@
             document.getElementById("confirmButton").style.backgroundColor="#4CAF50"
         }
         function showDistance() {
-          alert(google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000)
+          var distance = google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000
+          alert(distance)
           document.getElementById("confirmButton").disabled = true;
-          indexLocation = (indexLocation + 1) % locationNumber
-          getLatLng(1000, setPosition)
+          totalScore = totalScore + distance
+          indexLocation = indexLocation + 1
+          if(indexLocation != locationNumber){
+            getLatLng(1000, setPosition)
+          } else {
+            alert("your final score is " + distance)
+          }
+          
 
         }
 

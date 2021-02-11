@@ -201,7 +201,8 @@
           if(indexLocation != locationNumber){
             getLatLng(1000, setPositionToPano)
           } else {
-            alert("your final score is " + distance)
+            window.location.replace("score.html");
+            localStorage.setItem("finalScore", totalScore/locationNumber);
           }
         }
 

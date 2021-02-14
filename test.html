@@ -143,7 +143,7 @@
       }
 
       async function initialize() {
-        const locationNumber = 3
+        const locationNumber = 2
         var totalScore = 0
         const map = new google.maps.Map(document.getElementById("map"), {
           center: new google.maps.LatLng(0, 0),
@@ -179,7 +179,7 @@
         getLatLng(1000, setPositionToPano)
         // map.setStreetView(panorama);
         map.addListener('click', function(e) {
-            placeMarker(e.latLng, map);
+            placeMarker(e.latLng);
         });
         var marker = null;
         function placeMarker(location) {
@@ -192,8 +192,18 @@
             document.getElementById("confirmButton").disabled = false;
             document.getElementById("confirmButton").style.backgroundColor="#4CAF50"
         }
+        var resultMarker = null
+        function placeMarkerResult(location) {
+            if (resultMarker)
+                resultMarker.setMap(null);
+            resultMarker = new google.maps.Marker({
+                position: location, 
+                map: map
+            });
+        }
         function showDistance() {
           var distance = google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000
+          placeMarkerResult(panorama.position)
           alert(distance)
           document.getElementById("confirmButton").disabled = true;
           totalScore = totalScore + distance
@@ -204,10 +214,26 @@
             window.location.replace("score.html");
             localStorage.setItem("finalScore", totalScore/locationNumber);
           }
+          if (marker)
+              marker.setMap(null);
+        }
+        var mapSmall = 1
+        function toggleMap() {
+          if(mapSmall === 1){
+            document.getElementById("map").style.top = '50%'
+            document.getElementById("map").style.left = '60%'
+            mapSmall = 1
+          }
+          else{
+            document.getElementById("map").style.top = '70%'
+            document.getElementById("map").style.left = '80%'
+            mapSmall = 0
+          }
         }
 
         document.getElementById('confirmButton').addEventListener('click', showDistance, true);
-        
+        document.getElementById('expandButton').addEventListener('click', toggleMap, true);
+
 
       }
 
@@ -220,6 +246,8 @@
       <div id="pano"></div>
       <div id="map"></div>
       <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
+      <button id="expandButton" style="display: block">Expand</button>
+
 
   </body>
 </html>

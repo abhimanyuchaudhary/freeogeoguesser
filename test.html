@@ -10,6 +10,15 @@
     ></script>
 
     <script>//40.52519353111996, -3.8014052071717654
+      // const svgMarker = {
+      //   path: "M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z",
+      //   fillColor: "blue",
+      //   fillOpacity: 0.6,
+      //   strokeWeight: 0,
+      //   rotation: 0,
+      //   scale: 2,
+      // };
+
       var validBoxes = {
         upperNA: {
           weight: 8,
@@ -141,8 +150,29 @@
           }.bind(this)
         );
       }
+      var line = null
+      function addLine(loc1, loc2, myMap){
+        const lineSymbol = {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          };
+        line = new google.maps.Polyline({
+          path: [
+            loc1,
+            loc2,
+          ],
+          icons: [
+            {
+              icon: lineSymbol,
+              offset: "100%",
+            },
+          ],
+          map: myMap,
+        });
+      }
 
       async function initialize() {
+        
+
         const locationNumber = 2
         var totalScore = 0
         const map = new google.maps.Map(document.getElementById("map"), {
@@ -187,8 +217,13 @@
                 marker.setMap(null);
             marker = new google.maps.Marker({
                 position: location, 
-                map: map
+                map: map,
+                // icon: svgMarker
             });
+            if (resultMarker)
+                resultMarker.setMap(null);
+            if(line)
+              line.setMap(null)
             document.getElementById("confirmButton").disabled = false;
             document.getElementById("confirmButton").style.backgroundColor="#4CAF50"
         }
@@ -198,13 +233,16 @@
                 resultMarker.setMap(null);
             resultMarker = new google.maps.Marker({
                 position: location, 
-                map: map
+                map: map,
+                // icon: svgMarker
             });
         }
         function showDistance() {
           var distance = google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000
           placeMarkerResult(panorama.position)
-          alert(distance)
+          addLine(marker.position, panorama.position, map)
+          toggleMap()
+          document.getElementById("currScore").innerHTML = "Distance :" + distance
           document.getElementById("confirmButton").disabled = true;
           totalScore = totalScore + distance
           indexLocation = indexLocation + 1
@@ -214,20 +252,20 @@
             window.location.replace("score.html");
             localStorage.setItem("finalScore", totalScore/locationNumber);
           }
-          if (marker)
-              marker.setMap(null);
         }
         var mapSmall = 1
         function toggleMap() {
           if(mapSmall === 1){
             document.getElementById("map").style.top = '50%'
             document.getElementById("map").style.left = '60%'
-            mapSmall = 1
+            map.setZoom(2.5);
+            mapSmall = 0
           }
           else{
             document.getElementById("map").style.top = '70%'
             document.getElementById("map").style.left = '80%'
-            mapSmall = 0
+            map.setZoom(1);
+            mapSmall = 1
           }
         }
 
@@ -245,6 +283,7 @@
       
       <div id="pano"></div>
       <div id="map"></div>
+      <div id="currScore" style="display: block">Distance : </div>
       <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
       <button id="expandButton" style="display: block">Expand</button>
 

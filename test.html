@@ -258,12 +258,18 @@
           if(mapSmall === 1){
             document.getElementById("map").style.top = '50%'
             document.getElementById("map").style.left = '60%'
+            document.getElementById("expandButton").style.top = '50%'
+            document.getElementById("expandButton").style.left = '60%'
+            document.getElementById("expandButton").innerHTML = "▶"
             map.setZoom(2.5);
             mapSmall = 0
           }
           else{
             document.getElementById("map").style.top = '70%'
             document.getElementById("map").style.left = '80%'
+            document.getElementById("expandButton").style.top = '70%'
+            document.getElementById("expandButton").style.left = '80%'
+            document.getElementById("expandButton").innerHTML = "◀"
             map.setZoom(1);
             mapSmall = 1
           }
@@ -285,7 +291,7 @@
       <div id="map"></div>
       <div id="currScore" style="display: block">Distance : </div>
       <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
-      <button id="expandButton" style="display: block">Expand</button>
+      <button id="expandButton" style="display: block">◀</button>
 
 
   </body>

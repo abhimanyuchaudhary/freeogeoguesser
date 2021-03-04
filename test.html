@@ -138,8 +138,8 @@
 
           function (data, status) {
             if (status === google.maps.StreetViewStatus.OK) {
-              console.log(data.location)
-              console.log(data)
+              // console.log(data.location)
+              // console.log(data)
               setPos(data.location.latLng)
               // return data.location.latlng
               // successCallback(data.location.latLng);
@@ -151,6 +151,21 @@
         );
       }
       var line = null
+      function zoomMapWithLatLng(pos1, pos2, distance, map){
+          document.getElementById("map").style.top = '50%'
+          document.getElementById("map").style.left = '60%'
+          document.getElementById("expandButton").style.top = '50%'
+          document.getElementById("expandButton").style.left = '60%'
+          document.getElementById("expandButton").innerHTML = "▶"
+          var bound = new google.maps.LatLngBounds();
+          bound.extend(pos1)
+          bound.extend(pos2)
+          map.setCenter(bound.getCenter());
+          // console.log(distance/2000)
+          map.setZoom(20)
+          map.fitBounds(bound)
+          mapSmall = 0
+      }
       function addLine(loc1, loc2, myMap){
         const lineSymbol = {
             path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
@@ -168,6 +183,8 @@
           ],
           map: myMap,
         });
+
+        
       }
 
       async function initialize() {
@@ -240,8 +257,8 @@
         function showDistance() {
           var distance = google.maps.geometry.spherical.computeDistanceBetween (marker.position, panorama.position) / 1000
           placeMarkerResult(panorama.position)
+          zoomMapWithLatLng(marker.position, panorama.position, distance, map)
           addLine(marker.position, panorama.position, map)
-          toggleMap()
           document.getElementById("currScore").innerHTML = "Distance :" + distance
           document.getElementById("confirmButton").disabled = true;
           totalScore = totalScore + distance
@@ -253,6 +270,7 @@
             localStorage.setItem("finalScore", totalScore/locationNumber);
           }
         }
+
         var mapSmall = 1
         function toggleMap() {
           if(mapSmall === 1){

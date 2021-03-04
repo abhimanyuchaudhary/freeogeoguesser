@@ -186,7 +186,8 @@
         
       }
       function getScoreFromDistance(distance){
-        return 5000 * ((10726-distance)/10726)
+        return 10000 / (1 + Math.exp((distance-10)/1000))
+        // return 5000 * ((10726-distance)/10726)
       }
 
       async function initialize() {
@@ -261,7 +262,7 @@
           placeMarkerResult(panorama.position)
           zoomMapWithLatLng(marker.position, panorama.position, distance, map)
           addLine(marker.position, panorama.position, map)
-          document.getElementById("currScore").innerHTML = "Score :" + getScoreFromDistance(distance)
+          document.getElementById("currScore").innerHTML = "Score :" + getScoreFromDistance(distance)  + ", " + distance;
           document.getElementById("confirmButton").disabled = true;
           document.getElementById('nextButton').disabled = false
           totalScore = totalScore + getScoreFromDistance(distance)
@@ -323,7 +324,7 @@
       
       <div id="pano"></div>
       <div id="map"></div>
-      <div id="currScore" style="display: block">Distance : </div>
+      <div id="currScore" style="display: block">Score : </div>
       <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
       <button id="expandButton" style="display: block">◀</button>
       <button id="nextButton" disabled="true" style="display: block">NEXT</button>

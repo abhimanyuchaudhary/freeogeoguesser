@@ -183,8 +183,10 @@
           ],
           map: myMap,
         });
-
         
+      }
+      function getScoreFromDistance(distance){
+        return 5000 * ((10726-distance)/10726)
       }
 
       async function initialize() {
@@ -259,9 +261,9 @@
           placeMarkerResult(panorama.position)
           zoomMapWithLatLng(marker.position, panorama.position, distance, map)
           addLine(marker.position, panorama.position, map)
-          document.getElementById("currScore").innerHTML = "Distance :" + distance
+          document.getElementById("currScore").innerHTML = "Distance :" + getScoreFromDistance(distance)
           document.getElementById("confirmButton").disabled = true;
-          totalScore = totalScore + distance
+          totalScore = totalScore + getScoreFromDistance(distance)
           indexLocation = indexLocation + 1
           if(indexLocation != locationNumber){
             getLatLng(1000, setPositionToPano)

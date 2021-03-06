@@ -37,9 +37,19 @@ body {
   width: 20%;
   z-index:2;
 }
-#currScore {
+#totalScore {
   position:absolute;
-  bottom: 5px;
+  top: 5%;
+  left: 80%;
+  right: 0px;
+  width: 20%;
+  background-color: white;
+  text-align: center;
+  z-index:2;
+}
+
+#roundNumber {
+  position:absolute;
   left: 80%;
   right: 0px;
   width: 20%;
@@ -58,6 +68,26 @@ body {
   z-index:2;
 }
 #nextButton {
+  position:absolute;
+  bottom: 25px;
+  left: 60%;
+  right: 0px;
+  width: 20%;
+  background-color: white;
+  text-align: center;
+  z-index:2;
+}
+#currDistance {
+  position:absolute;
+  bottom: 5px;
+  left: 80%;
+  right: 0px;
+  width: 20%;
+  background-color: white;
+  text-align: center;
+  z-index:2;
+}
+#currScore {
   position:absolute;
   bottom: 5px;
   left: 60%;

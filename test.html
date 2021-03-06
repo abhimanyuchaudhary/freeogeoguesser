@@ -138,14 +138,9 @@
 
           function (data, status) {
             if (status === google.maps.StreetViewStatus.OK) {
-              // console.log(data.location)
-              // console.log(data)
               setPos(data.location.latLng)
-              // return data.location.latlng
-              // successCallback(data.location.latLng);
             } else {
               getLatLng(radius, setPos)
-              // this.setPositionRandomly(successCallback);
             }
           }.bind(this)
         );
@@ -262,10 +257,14 @@
           placeMarkerResult(panorama.position)
           zoomMapWithLatLng(marker.position, panorama.position, distance, map)
           addLine(marker.position, panorama.position, map)
-          document.getElementById("currScore").innerHTML = "Score :" + getScoreFromDistance(distance)  + ", " + distance;
+          totalScore = totalScore + getScoreFromDistance(distance)
+          document.getElementById("totalScore").innerHTML = "Score :" + totalScore
+          document.getElementById("currDistance").innerHTML = "Distance :" + distance
+          document.getElementById("currScore").innerHTML = "Score :" + getScoreFromDistance(distance)
+
           document.getElementById("confirmButton").disabled = true;
           document.getElementById('nextButton').disabled = false
-          totalScore = totalScore + getScoreFromDistance(distance)
+          
           indexLocation = indexLocation + 1
           if(indexLocation != locationNumber){
             //nothing
@@ -286,6 +285,7 @@
           if(line)
             line.setMap(null)
           toggleMap()
+          document.getElementById("roundNumber").innerHTML = "Round :" + (indexLocation + 1)
         }
         
         function toggleMap() {
@@ -324,10 +324,13 @@
       
       <div id="pano"></div>
       <div id="map"></div>
-      <div id="currScore" style="display: block">Score : </div>
+      <div id="totalScore" style="display: block">Total Score : </div>
       <button id="confirmButton" disabled="true" style="display: block">Confirm</button>
       <button id="expandButton" style="display: block">◀</button>
       <button id="nextButton" disabled="true" style="display: block">NEXT</button>
+      <div id="roundNumber" style="display: block">Round: 1</div>
+      <div id="currDistance" style="display: block">Distance: </div>
+      <div id="currScore" style="display: block">Score: </div>
 
 
   </body>

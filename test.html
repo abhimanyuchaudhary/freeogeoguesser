@@ -228,6 +228,7 @@
         });
         var marker = null;
         function placeMarker(location) {
+          if(document.getElementById("nextButton").disabled === true){
             if (marker)
                 marker.setMap(null);
             marker = new google.maps.Marker({
@@ -241,6 +242,8 @@
               line.setMap(null)
             document.getElementById("confirmButton").disabled = false;
             document.getElementById("confirmButton").style.backgroundColor="#4CAF50"
+          }
+
         }
         var resultMarker = null
         function placeMarkerResult(location) {
@@ -258,7 +261,7 @@
           zoomMapWithLatLng(marker.position, panorama.position, distance, map)
           addLine(marker.position, panorama.position, map)
           totalScore = totalScore + getScoreFromDistance(distance)
-          document.getElementById("totalScore").innerHTML = "Score :" + totalScore
+          document.getElementById("totalScore").innerHTML = "Total Score :" + totalScore
           document.getElementById("currDistance").innerHTML = "Distance :" + distance
           document.getElementById("currScore").innerHTML = "Score :" + getScoreFromDistance(distance)
 

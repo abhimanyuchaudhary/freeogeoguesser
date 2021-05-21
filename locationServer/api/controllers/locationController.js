@@ -3,6 +3,9 @@
 var mongoose = require('mongoose'),
   LatLngDb = mongoose.model('LatLng');
 
+exports.hello = function(req, res) {
+    res.send("Hello world");
+};
 exports.get_all = function(req, res) {
    LatLngDb.find({}).then(eachOne =>{
     res.json(eachOne);
@@ -28,11 +31,12 @@ exports.get_random = function(req, res) {
 };
 
 exports.push_a_location = function(req, res) {
+  console.log(req)
   var new_location = new LatLngDb(
     {
-      lat: req.params.lat,
-      lon: req.params.lon,
-      country: req.params.country
+      lat: req.body.lat,
+      lon: req.body.lon,
+      country: req.body.country
 
     }
     );

@@ -87,10 +87,12 @@ commenttable = <id , t, parentId, text>
 
 E
 
+
 listCommentsID = select id from commenttable where parentId = E.id
 
 render(Comment c):
 	print(c.content)
+	print(c.parent)
 	listCommentsID = select id from commenttable where parentId = c.id
 	for i in listCommentsID:
 		render(i)
